@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="rating" content="adult">
+<meta name="RATING" content="RTA-5042-1996-1400-1577-RTA">
+<title>MascVault</title>
+<style>
+  :root{--bg:#0d0d0f;--surface:#16161a;--surface-2:#1d1d22;--line:#2a2a30;--text:#f2f2f0;--muted:#8b8b94;--accent:#c8a24a;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:"Helvetica Neue",Arial,sans-serif;line-height:1.5;min-height:100vh;}
+  a{color:inherit;text-decoration:none}
+  header{border-bottom:1px solid var(--line);padding:16px 18px;display:flex;align-items:center;justify-content:space-between;background:rgba(13,13,15,.95);position:sticky;top:0;z-index:50;}
+  .logo{font-family:Georgia,serif;font-size:20px;letter-spacing:.04em}
+  .logo span{color:var(--accent)}
+  .back{font-size:12px;color:var(--muted);letter-spacing:.08em;}
+  .back:hover{color:var(--accent)}
+  .wrap{max-width:900px;margin:0 auto;padding:24px 18px;}
+
+  /* Hero with play overlay */
+  .hero-wrap{position:relative;width:100%;margin-bottom:20px;border-radius:4px;overflow:hidden;border:1px solid var(--line);cursor:pointer;}
+  .hero-wrap img{width:100%;display:block;}
+  .play-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0);transition:background .2s;}
+  .hero-wrap:hover .play-overlay{background:rgba(0,0,0,.35);}
+  .play-btn{width:68px;height:68px;border-radius:50%;background:rgba(200,162,74,.92);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.85);transition:opacity .2s,transform .2s;}
+  .hero-wrap:hover .play-btn{opacity:1;transform:scale(1);}
+  .play-btn svg{width:28px;height:28px;fill:#1a1400;margin-left:4px;}
+
+  .thumbs{display:flex;gap:8px;margin-bottom:24px;overflow-x:auto;}
+  .thumbs img{height:70px;border-radius:3px;border:1px solid var(--line);cursor:pointer;flex-shrink:0;transition:border-color .15s;object-fit:cover;}
+  .thumbs img:hover,.thumbs img.active{border-color:var(--accent)}
+  h1{font-family:Georgia,serif;font-size:clamp(18px,4vw,26px);font-weight:400;letter-spacing:.02em;margin-bottom:14px;}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;font-size:12px;}
+  .badge{background:var(--surface-2);border:1px solid var(--line);border-radius:3px;padding:4px 10px;color:var(--muted);letter-spacing:.06em;}
+  .badge.hd{border-color:var(--accent);color:var(--accent)}
+  .actors{margin-bottom:16px;font-size:13px;color:#cfcfd4;}
+  .actors strong{color:var(--accent)}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:28px;}
+  .tag{font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:4px 10px;letter-spacing:.04em;}
+  .safe-note{font-size:11px;color:#5d5d66;text-align:center;margin-bottom:32px;}
+
+  /* Not found */
+  .not-found{text-align:center;padding:80px 18px;color:var(--muted);}
+  .not-found h2{font-family:Georgia,serif;font-size:24px;margin-bottom:12px;color:var(--text);}
+
+  footer{border-top:1px solid var(--line);padding:24px 18px;text-align:center;color:#5d5d66;font-size:11px;}
+  footer a{color:var(--muted);text-decoration:underline}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="index.html">Masc<span>Vault</span></a>
+  <a class="back" href="index.html">&#8592; Back to Vault</a>
+</header>
+
+<div id="content"></div>
+
+<footer>
+  <p>© <span id="yr"></span> MascVault · <a href="index.html">Back to Vault</a> · <a href="dmca.html">DMCA</a> · <a href="mailto:admin@MascVault.com">admin@MascVault.com</a></p>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  var id = new URLSearchParams(window.location.search).get('id');
+
+  fetch('videos.json')
+    .then(function(r){ return r.json(); })
+    .then(function(videos){
+      var v = videos.find(function(x){ return x.id === id; });
+
+      if(!v){
+        document.getElementById('content').innerHTML =
+          '<div class="not-found"><h2>Video not found</h2><p>This video may have been removed or the link is incorrect.</p></div>';
+        return;
+      }
+
+      document.title = v.title + ' — MascVault';
+
+      var actorsHtml = v.actors
+        ? '<p class="actors"><strong>Cast:</strong> ' + v.actors + '</p>'
+        : '';
+
+      var tagsHtml = v.tags.map(function(t){
+        return '<span class="tag">' + t + '</span>';
+      }).join('\n');
+
+      var thumbsHtml = v.thumbs.map(function(t, i){
+        return '<img src="' + t + '" alt="preview" ' + (i===0?'class="active"':'') + '>';
+      }).join('\n');
+
+      var hdClass = v.quality === 'HD' ? ' hd' : '';
+
+      document.getElementById('content').innerHTML =
+        '<div class="wrap">' +
+          '<a class="hero-wrap" href="' + v.url + '" target="_blank" rel="noopener" id="hero-link">' +
+            '<img id="hero" src="' + v.thumb + '" alt="' + v.title + '">' +
+            '<div class="play-overlay">' +
+              '<div class="play-btn">' +
+                '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>' +
+              '</div>' +
+            '</div>' +
+          '</a>' +
+          '<div class="thumbs">' + thumbsHtml + '</div>' +
+          '<h1>' + v.title + '</h1>' +
+          '<div class="meta">' +
+            '<span class="badge' + hdClass + '">' + v.quality + '</span>' +
+            '<span class="badge">⏱ ' + v.duration + '</span>' +
+          '</div>' +
+          actorsHtml +
+          '<div class="tags">' + tagsHtml + '</div>' +
+          '<p class="safe-note">🛡 Link verified malware-free by MascVault</p>' +
+        '</div>';
+
+      // Thumb switcher
+      document.querySelectorAll('.thumbs img').forEach(function(img){
+        img.addEventListener('click', function(){
+          document.getElementById('hero').src = this.src;
+          document.querySelectorAll('.thumbs img').forEach(function(i){ i.classList.remove('active'); });
+          this.classList.add('active');
+        });
+      });
+    })
+    .catch(function(){
+      document.getElementById('content').innerHTML =
+        '<div class="not-found"><h2>Error loading video</h2><p>Please try again later.</p></div>';
+    });
+</script>
+</body>
+</html>
