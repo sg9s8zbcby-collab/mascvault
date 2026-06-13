@@ -17,7 +17,16 @@
   .back{font-size:12px;color:var(--muted);letter-spacing:.08em;display:flex;align-items:center;gap:6px;}
   .back:hover{color:var(--accent)}
   .wrap{max-width:900px;margin:0 auto;padding:24px 18px;}
-  .hero{width:100%;border-radius:4px;display:block;margin-bottom:20px;border:1px solid var(--line);}
+
+  /* Hero with play overlay */
+  .hero-wrap{position:relative;width:100%;margin-bottom:20px;border-radius:4px;overflow:hidden;border:1px solid var(--line);cursor:pointer;}
+  .hero-wrap img{width:100%;display:block;}
+  .play-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0);transition:background .2s;}
+  .hero-wrap:hover .play-overlay{background:rgba(0,0,0,.35);}
+  .play-btn{width:68px;height:68px;border-radius:50%;background:rgba(200,162,74,.92);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.85);transition:opacity .2s,transform .2s;}
+  .hero-wrap:hover .play-btn{opacity:1;transform:scale(1);}
+  .play-btn svg{width:28px;height:28px;fill:#1a1400;margin-left:4px;}
+
   .thumbs{display:flex;gap:8px;margin-bottom:24px;overflow-x:auto;}
   .thumbs img{height:70px;border-radius:3px;border:1px solid var(--line);cursor:pointer;flex-shrink:0;transition:border-color .15s;object-fit:cover;}
   .thumbs img:hover,.thumbs img.active{border-color:var(--accent)}
@@ -29,8 +38,6 @@
   .actors strong{color:var(--accent)}
   .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:28px;}
   .tag{font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:4px 10px;letter-spacing:.04em;}
-  .watch-btn{display:block;width:100%;padding:18px;background:var(--accent);color:#1a1400;font-size:16px;font-weight:700;letter-spacing:.04em;text-align:center;border-radius:3px;transition:opacity .15s;margin-bottom:14px;}
-  .watch-btn:hover{opacity:.88}
   .safe-note{font-size:11px;color:#5d5d66;text-align:center;margin-bottom:32px;}
   footer{border-top:1px solid var(--line);padding:24px 18px;text-align:center;color:#5d5d66;font-size:11px;}
   footer a{color:var(--muted);text-decoration:underline}
@@ -44,7 +51,15 @@
 </header>
 
 <div class="wrap">
-  <img class="hero" id="hero" src="https://cdn77-t.boyfriendtv.com/b-boyfriendtv/thumbs/bftv-full/2025-12/45/a9ed4434562ea05f0ece66d70d7187759.mp4-full-14.jpg" alt="Superstas muscles ass">
+
+  <a class="hero-wrap" href="https://www.bfhub.com/videos/1545918/superstas-muscles-ass/" target="_blank" rel="noopener" id="hero-link">
+    <img id="hero" src="https://cdn77-t.boyfriendtv.com/b-boyfriendtv/thumbs/bftv-full/2025-12/45/a9ed4434562ea05f0ece66d70d7187759.mp4-full-14.jpg" alt="Superstas muscles ass">
+    <div class="play-overlay">
+      <div class="play-btn">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+    </div>
+  </a>
 
   <div class="thumbs">
     <img src="https://cdn77-t.boyfriendtv.com/b-boyfriendtv/thumbs/bftv-full/2025-12/45/a9ed4434562ea05f0ece66d70d7187759.mp4-full-1.jpg" alt="preview">
@@ -58,7 +73,6 @@
   <div class="meta">
     <span class="badge hd">HD</span>
     <span class="badge">⏱ 05:21</span>
-    <span class="badge">📅 2025-12-10</span>
   </div>
 
   <p class="actors"><strong>Cast:</strong> Super Stas</p>
@@ -73,7 +87,6 @@
     <span class="tag">Muscle Butt</span>
   </div>
 
-  <a class="watch-btn" href="https://www.bfhub.com/videos/1545918/superstas-muscles-ass/" target="_blank" rel="noopener">▶ Watch Full Video</a>
   <p class="safe-note">🛡 Link verified malware-free by MascVault</p>
 </div>
 
@@ -86,6 +99,7 @@
   document.querySelectorAll('.thumbs img').forEach(function(img) {
     img.addEventListener('click', function() {
       document.getElementById('hero').src = this.src;
+      document.getElementById('hero-link').href = 'https://www.bfhub.com/videos/1545918/superstas-muscles-ass/';
       document.querySelectorAll('.thumbs img').forEach(function(i){ i.classList.remove('active'); });
       this.classList.add('active');
     });
