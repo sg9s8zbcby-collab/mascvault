@@ -140,7 +140,7 @@
 
   function enter(){
     if(_felcaActive && !document.getElementById('felca-confirm').checked){ return; }
-    if(_isBR){
+    if(_felcaActive){
       try { localStorage.setItem('mv_felca_ack', JSON.stringify({ ts: new Date().toISOString(), v: 1 })); } catch(e){}
     }
     document.getElementById('gate').classList.add('hidden');
@@ -154,19 +154,39 @@
     document.querySelector('.btn-enter').disabled = !document.getElementById('felca-confirm').checked;
   }
 
-  function activateFelca(){
+  function activateFelca(reason){
     _isBR = true;
     _felcaActive = true;
     document.getElementById('felca-notice').style.display = 'block';
     document.getElementById('felca-check').style.display = 'flex';
     document.querySelector('.btn-enter').disabled = true;
+    console.log('[MascVault] FELCA layer active —', reason);
   }
 
-  // Detect country by IP — show FELCA layer only for Brazil
-  fetch('https://ipapi.co/json/')
-    .then(function(r){ return r.json(); })
-    .then(function(d){ if(d && d.country_code === 'BR'){ activateFelca(); } })
-    .catch(function(){ /* if detection fails, keep standard gate */ });
+  // Country detection with backup + safe fallback.
+  // Primary: ipapi.co · Backup: ipwho.is · If both fail → show FELCA by default (cautious).
+  function detectCountry(){
+    fetch('https://ipapi.co/json/')
+      .then(function(r){ if(!r.ok) throw new Error('ipapi status ' + r.status); return r.json(); })
+      .then(function(d){
+        console.log('[MascVault] ipapi country:', d && d.country_code);
+        if(d && d.country_code === 'BR'){ activateFelca('ipapi=BR'); }
+      })
+      .catch(function(e){
+        console.log('[MascVault] ipapi failed, trying backup:', e.message);
+        fetch('https://ipwho.is/')
+          .then(function(r){ return r.json(); })
+          .then(function(d){
+            console.log('[MascVault] ipwho country:', d && d.country_code);
+            if(d && d.country_code === 'BR'){ activateFelca('ipwho=BR'); }
+          })
+          .catch(function(e2){
+            console.log('[MascVault] both APIs failed, activating FELCA as precaution');
+            activateFelca('fallback-both-failed');
+          });
+      });
+  }
+  detectCountry();
 
   document.body.style.overflow='hidden';
   document.getElementById('yr').textContent = new Date().getFullYear();
