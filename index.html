@@ -120,6 +120,15 @@
     padding:5px 10px;letter-spacing:.12em;color:var(--muted);margin-bottom:14px;font-size:10px;
   }
   footer a{color:var(--muted);text-decoration:underline}
+
+  /* ---------- SAFETY BANNER ---------- */
+  .safety-bar{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    background:#111115;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    padding:10px 18px;font-size:11px;letter-spacing:.06em;color:#8b8b94;
+  }
+  .safety-bar .shield{color:var(--accent);font-size:13px}
+  .safety-bar strong{color:#cfcfd4;font-weight:600}
 </style>
 </head>
 <body>
@@ -129,6 +138,7 @@
   <div class="gate-card">
     <div class="gate-mark">Masc<span>Vault</span></div>
     <div class="gate-sub">Brutal. Muscled. Masculine.</div>
+    <p class="gate-text" style="font-size:13px;color:#8b8b94;margin-bottom:14px">🛡 Every link on MascVault is <strong style="color:#cfcfd4">manually tested and verified malware-free</strong>. We are committed to your safety and privacy.</p>
     <p class="gate-text">This site contains adult material intended for adults only. By entering, you confirm you are at least 18 years old (or the age of majority in your location) and wish to view such content.</p>
     <div class="gate-btns">
       <button class="btn btn-enter" onclick="enter()">I am 18 or older — Enter</button>
@@ -158,6 +168,11 @@
   <a class="cat">Bodybuilders</a>
   <a class="cat">Removal Request Form</a>
 </nav>
+
+<div class="safety-bar">
+  <span class="shield">🛡</span>
+  <span><strong>Safe & Verified</strong> — Every link on MascVault is manually tested and confirmed malware-free. Your security is our priority.</span>
+</div>
 
 <main>
   <div class="grid" id="grid">
@@ -324,6 +339,7 @@
 <footer>
   <div class="rta">RTA · RESTRICTED TO ADULTS</div><br>
   <p>MascVault links to externally hosted adult content. No video is hosted on this site. All persons depicted were at least 18 years old at the time of production.</p>
+  <p style="margin-top:10px">🛡 <strong style="color:#8b8b94">Safe & Verified</strong> — All links are manually tested and confirmed free of malware, viruses, and malicious redirects.</p>
   <p style="margin-top:10px">© <span id="yr"></span> MascVault · <a href="#" onclick="resetGate();return false;">Exit</a></p>
   <p style="margin-top:10px">For inquiries send email to <a href="mailto:admin@MascVault.com">admin@MascVault.com</a></p>
 </footer>
