@@ -8,37 +8,43 @@
   </url>
 
   <url>
-    <loc>https://www.mascvault.com/videos/1545918.html</loc>
+    <loc>https://www.mascvault.com/dmca.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://www.mascvault.com/video.html?id=1545918</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://www.mascvault.com/videos/1546081.html</loc>
+    <loc>https://www.mascvault.com/video.html?id=1546081</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://www.mascvault.com/videos/1499399.html</loc>
+    <loc>https://www.mascvault.com/video.html?id=1499399</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://www.mascvault.com/videos/1579771.html</loc>
+    <loc>https://www.mascvault.com/video.html?id=1579771</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://www.mascvault.com/videos/1530152.html</loc>
+    <loc>https://www.mascvault.com/video.html?id=1530152</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://www.mascvault.com/videos/1561552.html</loc>
+    <loc>https://www.mascvault.com/video.html?id=1561552</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
